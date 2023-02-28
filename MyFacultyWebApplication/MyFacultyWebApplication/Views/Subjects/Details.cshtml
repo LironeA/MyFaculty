@@ -1,0 +1,110 @@
+﻿@model MyFacultyWebApplication.Models.Subject
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Subject</h4>
+    <hr />
+    <table class="table">
+        <thead>
+            <tr>
+                <th style="max-width:50%;">
+                    Опис предмета
+                </th>
+                <th>
+                    Викладачі
+                    @Html.ActionLink("Додати викладача","Create", "TeacherToSubjectRelations",new {SubjectId = Model.Id})
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <dl class="row">
+                        <dt class = "col-sm-2">
+                            @Html.DisplayNameFor(model => model.Name)
+                            </dt>
+                            <dd class = "col-sm-10">
+                            @Html.DisplayFor(model => model.Name)
+                        </dd>
+                        <dt class = "col-sm-2">
+                            @Html.DisplayNameFor(model => model.NumberOfHours)
+                        </dt>
+                        <dd class = "col-sm-10">
+                            @Html.DisplayFor(model => model.NumberOfHours)
+                        </dd>
+                        <dt class = "col-sm-2">
+                            @Html.DisplayNameFor(model => model.Abbreviation)
+                        </dt>
+                        <dd class = "col-sm-10">
+                            @Html.DisplayFor(model => model.Abbreviation)
+                        </dd>
+                    </dl>
+                </td> 
+                <td>
+                    <table class="table">
+                        <tbody>
+                            @foreach (Teacher teacher in ViewBag.Teachers)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => teacher.Name) 
+                                        @Html.DisplayFor(modelItem => teacher.Surname) 
+                                        @Html.DisplayFor(modelItem => teacher.LastName)
+                                    </td>
+                                    <td>
+                                        <a asp-controller="Teachers" asp-action="Edit" asp-route-id="@teacher.Id">Edit</a> |
+                                        <a asp-controller="Teachers" asp-action="Details" asp-route-id="@teacher.Id">Details</a> |
+                                        <a asp-controller="Teachers" asp-action="Delete" asp-route-id="@teacher.Id">Delete</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </td> 
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div>
+    <table class="table">
+    <thead>
+        <tr>
+            <th>
+                    Матеріал
+            </th>
+            <th>
+                    Посилання
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+            @foreach (Material material in ViewBag.Materials) 
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => material.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => material.Url)
+                    </td>
+                    <td>
+                            <a asp-controller="Materials" asp-action="Edit" asp-route-id="@material.Id">Edit</a> |
+                            <a asp-controller="Materials" asp-action="Details" asp-route-id="@material.Id">Details</a> |
+                            <a asp-controller="Materials" asp-action="Delete" asp-route-id="@material.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+    </tbody>
+</table>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

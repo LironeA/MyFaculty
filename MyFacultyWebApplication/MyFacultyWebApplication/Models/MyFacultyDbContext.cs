@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace MyFacultyWebApplication.Models;
 
@@ -77,7 +75,7 @@ public partial class MyFacultyDbContext : DbContext
 
         modelBuilder.Entity<Material>(entity =>
         {
-            entity.HasNoKey();
+            //entity.HasNoKey();
 
             entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.Name)
