@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using MyFacultyWebApplication.Models;
+using NuGet.Protocol;
 
 namespace MyFacultyWebApplication.Models;
 
@@ -17,7 +19,9 @@ public partial class Teacher
 
     public int DegreeId { get; set; }
 
-    public virtual Degree Degree { get; set; } = null!;
+    public string UserId { get; set; } = null!;
+
+    public virtual ICollection<TeacherToDegreeRelation> TeacherToDegreeRelations { get; } = new List<TeacherToDegreeRelation>();
 
     public virtual ICollection<TeacherToSubjectRelation> TeacherToSubjectRelations { get; } = new List<TeacherToSubjectRelation>();
 }

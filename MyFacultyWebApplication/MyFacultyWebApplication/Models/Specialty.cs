@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using MyFacultyWebApplication.Models;
 
 namespace MyFacultyWebApplication.Models;
 
@@ -9,5 +10,5 @@ public partial class Specialty
 
     public string Name { get; set; } = null!;
 
-    public virtual ICollection<Group> Groups { get; } = new List<Group>();
+    public virtual ICollection<GroupToSpecialtyRelation> GroupToSpecialtyRelations { get; } = new List<GroupToSpecialtyRelation>();
 }

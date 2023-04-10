@@ -1,0 +1,34 @@
+﻿@model MyFacultyWebApplication.ViewModel.RegisterViewModel
+@{
+    ViewData["Title"] = "Регістрація";
+}
+
+<h1>Регістрація нового користувача</h1>
+
+<form method="post" asp-controller="Account" asp-action="Register">
+    <div asp-validation-summary="ModelOnly"></div>
+    <div>
+        <label asp-for="Email"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="Year"></label>
+        <input asp-for="Year" class="form-control" />
+        <span asp-validation-for="Year" class="text-danger"></span>
+    </div>
+
+    <div>
+          <label asp-for="Password"></label>
+          <input asp-for="Password" class="form-control" />
+          <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+    <div>
+          <label asp-for="ConfirmPassword"></label>
+          <input asp-for="ConfirmPassword" class="form-control" />
+          <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+    </div>
+    <div>
+        <input type="submit" value="Зареєструватися" class="btn btn-primary" />
+    </div>
+</form>

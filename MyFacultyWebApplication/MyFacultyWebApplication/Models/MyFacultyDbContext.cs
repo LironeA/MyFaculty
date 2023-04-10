@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using MyFacultyWebApplication.Models;
 
 namespace MyFacultyWebApplication.Models;
 
@@ -19,6 +20,8 @@ public partial class MyFacultyDbContext : DbContext
 
     public virtual DbSet<Group> Groups { get; set; }
 
+    public virtual DbSet<GroupToSpecialtyRelation> GroupToSpecialtyRelations { get; set; }
+
     public virtual DbSet<GroupToSubjectRelation> GroupToSubjectRelations { get; set; }
 
     public virtual DbSet<Material> Materials { get; set; }
@@ -29,15 +32,19 @@ public partial class MyFacultyDbContext : DbContext
 
     public virtual DbSet<Student> Students { get; set; }
 
+    public virtual DbSet<StudentToStatusRelation> StudentToStatusRelations { get; set; }
+
     public virtual DbSet<Subject> Subjects { get; set; }
 
     public virtual DbSet<Teacher> Teachers { get; set; }
+
+    public virtual DbSet<TeacherToDegreeRelation> TeacherToDegreeRelations { get; set; }
 
     public virtual DbSet<TeacherToSubjectRelation> TeacherToSubjectRelations { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server= PC-Vanyatko\\SQLEXPRESS01;\nDatabase=MyFacultyDB; Trusted_Connection=True; Trust Server Certificate=True;");
+        => optionsBuilder.UseSqlServer("Server=PC-Vanyatko\\SQLEXPRESS;Database=MyFacultyDB; Trusted_Connection=True;Trust Server Certificate=True; ");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -50,14 +57,22 @@ public partial class MyFacultyDbContext : DbContext
 
         modelBuilder.Entity<Group>(entity =>
         {
-            entity.Property(e => e.Name)
-                .HasMaxLength(10)
-                .IsFixedLength();
+            entity.Property(e => e.Name).HasMaxLength(10);
+        });
 
-            entity.HasOne(d => d.Specialty).WithMany(p => p.Groups)
+        modelBuilder.Entity<GroupToSpecialtyRelation>(entity =>
+        {
+            entity.ToTable("GroupToSpecialtyRelation");
+
+            entity.HasOne(d => d.Group).WithMany(p => p.GroupToSpecialtyRelations)
+                .HasForeignKey(d => d.GroupId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_GroupToSpecialtyRelation_Groups");
+
+            entity.HasOne(d => d.Specialty).WithMany(p => p.GroupToSpecialtyRelations)
                 .HasForeignKey(d => d.SpecialtyId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Groups_Specialties");
+                .HasConstraintName("FK_GroupToSpecialtyRelation_Specialties");
         });
 
         modelBuilder.Entity<GroupToSubjectRelation>(entity =>
@@ -77,15 +92,14 @@ public partial class MyFacultyDbContext : DbContext
 
         modelBuilder.Entity<Material>(entity =>
         {
-            entity.HasNoKey();
 
             entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.Name)
-                .HasMaxLength(50)
-                .IsFixedLength();
+                .HasMaxLength(50);
+
             entity.Property(e => e.Url)
-                .HasMaxLength(100)
-                .IsFixedLength();
+                .HasMaxLength(100);
+
 
             entity.HasOne(d => d.Subject).WithMany()
                 .HasForeignKey(d => d.SubjectId)
@@ -114,35 +128,35 @@ public partial class MyFacultyDbContext : DbContext
             entity.HasKey(e => e.Id).HasName("PK_Student");
 
             entity.Property(e => e.DateOfBirth).HasColumnType("date");
-            entity.Property(e => e.LastName)
-                .HasMaxLength(50)
-                .IsFixedLength();
-            entity.Property(e => e.Name)
-                .HasMaxLength(50)
-                .IsFixedLength();
-            entity.Property(e => e.Surname)
-                .HasMaxLength(50)
-                .IsFixedLength();
+            entity.Property(e => e.LastName).HasMaxLength(50);
+            entity.Property(e => e.Name).HasMaxLength(50);
+            entity.Property(e => e.Surname).HasMaxLength(50);
 
             entity.HasOne(d => d.Group).WithMany(p => p.Students)
                 .HasForeignKey(d => d.GroupId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Student_Groups");
+        });
 
-            entity.HasOne(d => d.Status).WithMany(p => p.Students)
+        modelBuilder.Entity<StudentToStatusRelation>(entity =>
+        {
+            entity.ToTable("StudentToStatusRelation");
+
+            entity.HasOne(d => d.Status).WithMany(p => p.StudentToStatusRelations)
                 .HasForeignKey(d => d.StatusId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Student_Statuses");
+                .HasConstraintName("FK_StudentToStatusRelation_Statuses");
+
+            entity.HasOne(d => d.Student).WithMany(p => p.StudentToStatusRelations)
+                .HasForeignKey(d => d.StudentId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_StudentToStatusRelation_Students");
         });
 
         modelBuilder.Entity<Subject>(entity =>
         {
-            entity.Property(e => e.Abbreviation)
-                .HasMaxLength(10)
-                .IsFixedLength();
-            entity.Property(e => e.Name)
-                .HasMaxLength(50)
-                .IsFixedLength();
+            entity.Property(e => e.Abbreviation).HasMaxLength(10);
+            entity.Property(e => e.Name).HasMaxLength(100);
         });
 
         modelBuilder.Entity<Teacher>(entity =>
@@ -157,11 +171,21 @@ public partial class MyFacultyDbContext : DbContext
             entity.Property(e => e.Surname)
                 .HasMaxLength(50)
                 .IsFixedLength();
+        });
 
-            entity.HasOne(d => d.Degree).WithMany(p => p.Teachers)
+        modelBuilder.Entity<TeacherToDegreeRelation>(entity =>
+        {
+            entity.ToTable("TeacherToDegreeRelation");
+
+            entity.HasOne(d => d.Degree).WithMany(p => p.TeacherToDegreeRelations)
                 .HasForeignKey(d => d.DegreeId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Teachers_Degrees");
+                .HasConstraintName("FK_TeacherToDegreeRelation_Degrees");
+
+            entity.HasOne(d => d.Teacher).WithMany(p => p.TeacherToDegreeRelations)
+                .HasForeignKey(d => d.TeacherId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_TeacherToDegreeRelation_Teachers");
         });
 
         modelBuilder.Entity<TeacherToSubjectRelation>(entity =>
