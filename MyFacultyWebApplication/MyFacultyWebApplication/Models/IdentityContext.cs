@@ -9,6 +9,7 @@ namespace MyFacultyWebApplication.Models
         public IdentityContext(DbContextOptions<IdentityContext> options)
             : base(options)
         {
+            //Database.EnsureDeleted();
             Database.EnsureCreated();
         }
     }

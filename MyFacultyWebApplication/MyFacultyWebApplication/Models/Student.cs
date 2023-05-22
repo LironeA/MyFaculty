@@ -18,11 +18,13 @@ public partial class Student
 
     public int GroupId { get; set; }
 
+    public virtual Group ?Group { get; set; } = null!;
+
     public int StatusId { get; set; }
 
-    public virtual Group Group { get; set; } = null!;
+    public virtual Status ?Status { get; set; } = null!;
 
-    public string UserId { get; set; } = null!;
+    public string ?UserId { get; set; } = null!;
 
-    public virtual ICollection<StudentToStatusRelation> StudentToStatusRelations { get; } = new List<StudentToStatusRelation>();
+    public virtual User ?User { get; set; } = null!;
 }

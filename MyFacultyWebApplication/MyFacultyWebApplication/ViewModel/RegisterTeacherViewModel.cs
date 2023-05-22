@@ -1,10 +1,9 @@
-﻿using Microsoft.DotNet.Scaffolding.Shared.Project;
-using MyFacultyWebApplication.Models;
+﻿using MyFacultyWebApplication.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace MyFacultyWebApplication.ViewModel
 {
-    public class RegisterViewModel
+    public class RegisterTeacherViewModel
     {
         [Required]
         [Display(Name = "Email")]
@@ -12,11 +11,16 @@ namespace MyFacultyWebApplication.ViewModel
         public string Email { get; set; }
 
         [Required]
-        [Display(Name = "Рік народження")]
-        public int Year { get; set; }
+        [Display(Name = "Дата народження")]
+        public DateTime Date { get; set; }
+
+        [Required]
+        [Display(Name = "ПІБ")]
+        public int TeacherId { get; set; }
 
         [Required]
         [Display(Name = "Пароль")]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
 
         [Required]

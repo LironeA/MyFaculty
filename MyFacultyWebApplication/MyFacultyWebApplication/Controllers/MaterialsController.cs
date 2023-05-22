@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MyFacultyWebApplication.Models;
 
 namespace MyFacultyWebApplication.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class MaterialsController : Controller
     {
         private readonly MyFacultyDbContext _context;
@@ -17,8 +19,8 @@ namespace MyFacultyWebApplication.Controllers
         // GET: Materials
         public async Task<IActionResult> Index()
         {
-            var myFacultyDbContext = _context.Materials.Include(m => m.Subject);
-            return View(await myFacultyDbContext.ToListAsync());
+            var materials = _context.Materials.Include(m => m.Subject);
+            return View(await materials.ToListAsync());
         }
 
         // GET: Materials/Details/5

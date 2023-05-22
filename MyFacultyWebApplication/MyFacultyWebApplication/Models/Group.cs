@@ -11,6 +11,8 @@ public partial class Group
     public string Name { get; set; } = null!;
 
     public int SpecialtyId { get; set; }
+    
+    public virtual Specialty? Specialty { get; set; } = null!;
 
     public virtual ICollection<GroupToSpecialtyRelation> GroupToSpecialtyRelations { get; } = new List<GroupToSpecialtyRelation>();
 

@@ -19,9 +19,11 @@ namespace MyFacultyWebApplication.Controllers
         public IActionResult Index() => View(_roleManager.Roles.ToList());
         public IActionResult UserList() => View(_userManager.Users.ToList());
 
-        public async Task<IActionResult> Edit(string userId)
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(string id)
         {
-            User user = await _userManager.FindByIdAsync(userId);
+            User user = await _userManager.FindByIdAsync(id);
             if (user != null)
             {
                 var userRoles = await _userManager.GetRolesAsync(user);
@@ -51,7 +53,7 @@ namespace MyFacultyWebApplication.Controllers
                 var removedRoles = userRoles.Except(roles);
                 await _userManager.AddToRolesAsync(user, addedRoles);
                 await _userManager.RemoveFromRolesAsync(user, removedRoles);
-                return RedirectToAction("UserList");
+                return RedirectToAction("Index","Accounts");
             }
             return NotFound();
         }

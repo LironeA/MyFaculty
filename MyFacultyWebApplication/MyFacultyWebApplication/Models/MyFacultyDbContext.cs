@@ -43,7 +43,6 @@ public partial class MyFacultyDbContext : DbContext
     public virtual DbSet<TeacherToSubjectRelation> TeacherToSubjectRelations { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("Server=PC-Vanyatko\\SQLEXPRESS;Database=MyFacultyDB; Trusted_Connection=True;Trust Server Certificate=True; ");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -58,13 +57,16 @@ public partial class MyFacultyDbContext : DbContext
         modelBuilder.Entity<Group>(entity =>
         {
             entity.Property(e => e.Name).HasMaxLength(10);
+
+            entity.HasOne(s => s.Specialty).WithMany()
+                .HasForeignKey(g => g.SpecialtyId);
         });
 
         modelBuilder.Entity<GroupToSpecialtyRelation>(entity =>
         {
             entity.ToTable("GroupToSpecialtyRelation");
 
-            entity.HasOne(d => d.Group).WithMany(p => p.GroupToSpecialtyRelations)
+            /*entity.HasOne(d => d.Group).WithMany(p => p.GroupToSpecialtyRelations)
                 .HasForeignKey(d => d.GroupId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_GroupToSpecialtyRelation_Groups");
@@ -72,7 +74,7 @@ public partial class MyFacultyDbContext : DbContext
             entity.HasOne(d => d.Specialty).WithMany(p => p.GroupToSpecialtyRelations)
                 .HasForeignKey(d => d.SpecialtyId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_GroupToSpecialtyRelation_Specialties");
+                .HasConstraintName("FK_GroupToSpecialtyRelation_Specialties");*/
         });
 
         modelBuilder.Entity<GroupToSubjectRelation>(entity =>
@@ -110,8 +112,7 @@ public partial class MyFacultyDbContext : DbContext
         modelBuilder.Entity<Specialty>(entity =>
         {
             entity.Property(e => e.Name)
-                .HasMaxLength(50)
-                .IsFixedLength();
+                .HasMaxLength(50);
         });
 
         modelBuilder.Entity<Status>(entity =>
@@ -132,9 +133,13 @@ public partial class MyFacultyDbContext : DbContext
             entity.Property(e => e.Name).HasMaxLength(50);
             entity.Property(e => e.Surname).HasMaxLength(50);
 
+            entity.HasOne(s => s.Status).WithMany()
+                .HasForeignKey(s => s.StatusId)
+                .HasConstraintName("FK_Student_Statuses");
+
             entity.HasOne(d => d.Group).WithMany(p => p.Students)
                 .HasForeignKey(d => d.GroupId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.NoAction)
                 .HasConstraintName("FK_Student_Groups");
         });
 
@@ -142,15 +147,15 @@ public partial class MyFacultyDbContext : DbContext
         {
             entity.ToTable("StudentToStatusRelation");
 
-            entity.HasOne(d => d.Status).WithMany(p => p.StudentToStatusRelations)
+            /*entity.HasOne(d => d.Status).WithMany(p => p.StudentToStatusRelations)
                 .HasForeignKey(d => d.StatusId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_StudentToStatusRelation_Statuses");
 
-            entity.HasOne(d => d.Student).WithMany(p => p.StudentToStatusRelations)
+            entity.HasOne(d => d.StudentId).WithMany(p => p.StudentToStatusRelations)
                 .HasForeignKey(d => d.StudentId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_StudentToStatusRelation_Students");
+                .HasConstraintName("FK_StudentToStatusRelation_Students");*/
         });
 
         modelBuilder.Entity<Subject>(entity =>
