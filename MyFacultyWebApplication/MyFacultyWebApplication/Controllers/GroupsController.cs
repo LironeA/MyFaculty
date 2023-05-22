@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MyFacultyWebApplication.Models;
 using NuGet.Versioning;
+=======
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using MyFacultyWebApplication.Models;
+>>>>>>> 59fc604a407e294acf4cfcaf8766e2accc31f2f6
 
 namespace MyFacultyWebApplication.Controllers
 {
@@ -22,9 +29,14 @@ namespace MyFacultyWebApplication.Controllers
         // GET: Groups
         public async Task<IActionResult> Index()
         {
+<<<<<<< HEAD
               return _context.Groups != null ? 
                           View(await _context.Groups.ToListAsync()) :
                           Problem("Entity set 'MyFacultyDbContext.Groups'  is null.");
+=======
+                var groups = _context.Groups.Include(g => g.Specialty);
+                return View(await groups.ToListAsync());
+>>>>>>> 59fc604a407e294acf4cfcaf8766e2accc31f2f6
         }
 
         // GET: Groups/Details/5
@@ -35,6 +47,7 @@ namespace MyFacultyWebApplication.Controllers
                 return NotFound();
             }
 
+<<<<<<< HEAD
             var @group = await _context.Groups
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (@group == null)
@@ -45,6 +58,18 @@ namespace MyFacultyWebApplication.Controllers
             ViewData["Specialty"] = await _context.Specialties.SingleOrDefaultAsync(g => g.Id == group.SpecialtyId);
 
             return View(@group);
+=======
+            var group = await _context.Groups
+                .Include(g => g.Specialty)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (group == null)
+            {
+                return NotFound();
+            }
+            var students = await _context.Students.Where(s => s.GroupId == group.Id).ToListAsync();
+            ViewBag.Students = students;
+            return View(group);
+>>>>>>> 59fc604a407e294acf4cfcaf8766e2accc31f2f6
         }
 
         // GET: Groups/Create
@@ -59,6 +84,7 @@ namespace MyFacultyWebApplication.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+<<<<<<< HEAD
         public async Task<IActionResult> Create([Bind("Id,Name,SpecialtyId")] Group @group)
         {
             var specialty = await _context.Specialties.SingleOrDefaultAsync(g => g.Id == group.SpecialtyId);
@@ -78,6 +104,20 @@ namespace MyFacultyWebApplication.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(@group);
+=======
+        public async Task<IActionResult> Create([Bind("Id,Name,SpecialtyId")] Group group)
+        {
+            group.Specialty = _context.Specialties.Single(s => s.Id == group.SpecialtyId);
+
+            if (ModelState.IsValid)
+            {
+                _context.Add(group);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["SpecialtyId"] = new SelectList(_context.Specialties, "Id", "Name", group.SpecialtyId);
+            return View(group);
+>>>>>>> 59fc604a407e294acf4cfcaf8766e2accc31f2f6
         }
 
         // GET: Groups/Edit/5
@@ -88,12 +128,22 @@ namespace MyFacultyWebApplication.Controllers
                 return NotFound();
             }
 
+<<<<<<< HEAD
             var @group = await _context.Groups.FindAsync(id);
             if (@group == null)
             {
                 return NotFound();
             }
             return View(@group);
+=======
+            var ggroup = await _context.Groups.FindAsync(id);
+            if (ggroup == null)
+            {
+                return NotFound();
+            }
+            ViewData["SpecialtyId"] = new SelectList(_context.Specialties, "Id", "Name", ggroup.SpecialtyId);
+            return View(ggroup);
+>>>>>>> 59fc604a407e294acf4cfcaf8766e2accc31f2f6
         }
 
         // POST: Groups/Edit/5
@@ -101,9 +151,15 @@ namespace MyFacultyWebApplication.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+<<<<<<< HEAD
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,SpecialtyId")] Group @group)
         {
             if (id != @group.Id)
+=======
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,SpecialtyId")] Group ggroup)
+        {
+            if (id != ggroup.Id)
+>>>>>>> 59fc604a407e294acf4cfcaf8766e2accc31f2f6
             {
                 return NotFound();
             }
@@ -112,6 +168,7 @@ namespace MyFacultyWebApplication.Controllers
             {
                 try
                 {
+<<<<<<< HEAD
                     _context.Update(@group);
                     await _context.SaveChangesAsync();
                     var relation = await _context.GroupToSpecialtyRelations.SingleOrDefaultAsync(gsr => gsr.GroupId == group.Id);
@@ -125,6 +182,14 @@ namespace MyFacultyWebApplication.Controllers
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!GroupExists(@group.Id))
+=======
+                    _context.Update(ggroup);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!GroupExists(ggroup.Id))
+>>>>>>> 59fc604a407e294acf4cfcaf8766e2accc31f2f6
                     {
                         return NotFound();
                     }
@@ -135,7 +200,12 @@ namespace MyFacultyWebApplication.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+<<<<<<< HEAD
             return View(@group);
+=======
+            ViewData["SpecialtyId"] = new SelectList(_context.Specialties, "Id", "Name", ggroup.SpecialtyId);
+            return View(ggroup);
+>>>>>>> 59fc604a407e294acf4cfcaf8766e2accc31f2f6
         }
 
         // GET: Groups/Delete/5
@@ -146,14 +216,25 @@ namespace MyFacultyWebApplication.Controllers
                 return NotFound();
             }
 
+<<<<<<< HEAD
             var @group = await _context.Groups
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (@group == null)
+=======
+            var ggroup = await _context.Groups
+                .Include(g => g.Specialty)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (ggroup == null)
+>>>>>>> 59fc604a407e294acf4cfcaf8766e2accc31f2f6
             {
                 return NotFound();
             }
 
+<<<<<<< HEAD
             return View(@group);
+=======
+            return View(ggroup);
+>>>>>>> 59fc604a407e294acf4cfcaf8766e2accc31f2f6
         }
 
         // POST: Groups/Delete/5
@@ -165,6 +246,7 @@ namespace MyFacultyWebApplication.Controllers
             {
                 return Problem("Entity set 'MyFacultyDbContext.Groups'  is null.");
             }
+<<<<<<< HEAD
             var @group = await _context.Groups.FindAsync(id);
             var relation = await _context.GroupToSpecialtyRelations.SingleOrDefaultAsync(gsr => gsr.GroupId == group.Id);
             
@@ -180,12 +262,28 @@ namespace MyFacultyWebApplication.Controllers
                 _context.Update(relation);
                 await _context.SaveChangesAsync();
             }
+=======
+            var ggroup = await _context.Groups.FindAsync(id);
+            if (ggroup != null)
+            {
+                _context.Groups.Remove(ggroup);
+            }
+
+            await _context.SaveChangesAsync();
+>>>>>>> 59fc604a407e294acf4cfcaf8766e2accc31f2f6
             return RedirectToAction(nameof(Index));
         }
 
         private bool GroupExists(int id)
         {
+<<<<<<< HEAD
           return (_context.Groups?.Any(e => e.Id == id)).GetValueOrDefault();
         }
+=======
+            return (_context.Groups?.Any(e => e.Id == id)).GetValueOrDefault();
+        }
+
+
+>>>>>>> 59fc604a407e294acf4cfcaf8766e2accc31f2f6
     }
 }

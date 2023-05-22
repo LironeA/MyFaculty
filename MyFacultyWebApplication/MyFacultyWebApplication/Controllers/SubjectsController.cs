@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MyFacultyWebApplication;
+=======
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+>>>>>>> 59fc604a407e294acf4cfcaf8766e2accc31f2f6
 using MyFacultyWebApplication.Models;
 
 namespace MyFacultyWebApplication.Controllers
@@ -22,14 +28,21 @@ namespace MyFacultyWebApplication.Controllers
         // GET: Subjects
         public async Task<IActionResult> Index()
         {
+<<<<<<< HEAD
               return _context.Subjects != null ? 
                           View(await _context.Subjects.ToListAsync()) :
                           Problem("Entity set 'MyFacultyDbContext.Subjects'  is null.");
+=======
+            return _context.Subjects != null ?
+                        View(await _context.Subjects.ToListAsync()) :
+                        Problem("Entity set 'MyFacultyDbContext.Subjects'  is null.");
+>>>>>>> 59fc604a407e294acf4cfcaf8766e2accc31f2f6
         }
 
         // GET: Subjects/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+<<<<<<< HEAD
             if (id == null || _context.Subjects == null) return NotFound();
 
             var subject = await _context.Subjects.FirstOrDefaultAsync(m => m.Id == id);
@@ -38,6 +51,23 @@ namespace MyFacultyWebApplication.Controllers
 
             ViewBag.Teachers = await _context.TeacherToSubjectRelations.Where(m => m.SubjectId == id).Select(g => g.Teacher).ToListAsync();
             ViewBag.Materials = await _context.Materials.Where(m => m.SubjectId == id).ToListAsync();
+=======
+            if (id == null || _context.Subjects == null)
+            {
+                return NotFound();
+            }
+
+            var subject = await _context.Subjects
+                .FirstOrDefaultAsync(s => s.Id == id);
+
+            ViewBag.Materials = _context.Materials.Where(m => m.SubjectId == id);
+            var TeachersId = _context.TeacherToSubjectRelations.Where(m => m.SubjectId == id).Select(m => m.TeacherId);
+            ViewBag.Teachers = _context.Teachers.Where(m => TeachersId.Contains(m.Id));
+            if (subject == null)
+            {
+                return NotFound();
+            }
+>>>>>>> 59fc604a407e294acf4cfcaf8766e2accc31f2f6
 
             return View(subject);
         }
@@ -147,14 +177,22 @@ namespace MyFacultyWebApplication.Controllers
             {
                 _context.Subjects.Remove(subject);
             }
+<<<<<<< HEAD
             
+=======
+
+>>>>>>> 59fc604a407e294acf4cfcaf8766e2accc31f2f6
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool SubjectExists(int id)
         {
+<<<<<<< HEAD
           return (_context.Subjects?.Any(e => e.Id == id)).GetValueOrDefault();
+=======
+            return (_context.Subjects?.Any(e => e.Id == id)).GetValueOrDefault();
+>>>>>>> 59fc604a407e294acf4cfcaf8766e2accc31f2f6
         }
     }
 }

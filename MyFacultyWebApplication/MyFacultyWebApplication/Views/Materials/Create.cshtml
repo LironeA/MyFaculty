@@ -22,6 +22,7 @@
                 <input asp-for="Url" class="form-control" />
                 <span asp-validation-for="Url" class="text-danger"></span>
             </div>
+<<<<<<< HEAD
 
             @{
                 if(ViewBag.AddToSubject)
@@ -39,6 +40,12 @@
             
             
             <hr/>
+=======
+            <div class="form-group">
+                <label asp-for="SubjectId" class="control-label"></label>
+                <select asp-for="SubjectId" class ="form-control" asp-items="ViewBag.SubjectId"></select>
+            </div>
+>>>>>>> 59fc604a407e294acf4cfcaf8766e2accc31f2f6
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -47,6 +54,7 @@
 </div>
 
 <div>
+<<<<<<< HEAD
     @{
         if (ViewBag.AddToSubject)
         {
@@ -57,8 +65,15 @@
             <a asp-action="Index">Back to List</a>
         }
     }
+=======
+    <a asp-action="Index">Back to List</a>
+>>>>>>> 59fc604a407e294acf4cfcaf8766e2accc31f2f6
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 59fc604a407e294acf4cfcaf8766e2accc31f2f6

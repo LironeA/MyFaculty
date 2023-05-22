@@ -1,9 +1,13 @@
+<<<<<<< HEAD
 ﻿@*
     Path: Root/Teachers/Create
 *@
 
 
 @model MyFacultyWebApplication.Models.Teacher
+=======
+﻿@model MyFacultyWebApplication.Models.Teacher
+>>>>>>> 59fc604a407e294acf4cfcaf8766e2accc31f2f6
 
 @{
     ViewData["Title"] = "Create";
@@ -39,6 +43,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="DegreeId" class="control-label"></label>
+<<<<<<< HEAD
                 <select asp-for="DegreeId" class ="form-control" asp-items="ViewBag.Degrees"></select>           
                 <span asp-validation-for="DegreeId" class="text-danger"></span>
             </div>
@@ -46,6 +51,9 @@
                 <label asp-for="UserId" class="control-label"></label>
                 <select asp-for="DegreeId" class="form-control" />
                 <span asp-validation-for="UserId" class="text-danger"></span>
+=======
+                <select asp-for="DegreeId" class ="form-control" asp-items="ViewBag.DegreeId"></select>
+>>>>>>> 59fc604a407e294acf4cfcaf8766e2accc31f2f6
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -58,3 +66,9 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+<<<<<<< HEAD
+=======
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+>>>>>>> 59fc604a407e294acf4cfcaf8766e2accc31f2f6

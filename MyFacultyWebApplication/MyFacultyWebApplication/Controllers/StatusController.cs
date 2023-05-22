@@ -1,9 +1,13 @@
+<<<<<<< HEAD
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+=======
+﻿using Microsoft.AspNetCore.Mvc;
+>>>>>>> 59fc604a407e294acf4cfcaf8766e2accc31f2f6
 using Microsoft.EntityFrameworkCore;
 using MyFacultyWebApplication.Models;
 
@@ -21,9 +25,15 @@ namespace MyFacultyWebApplication.Controllers
         // GET: Status
         public async Task<IActionResult> Index()
         {
+<<<<<<< HEAD
               return _context.Statuses != null ? 
                           View(await _context.Statuses.ToListAsync()) :
                           Problem("Entity set 'MyFacultyDbContext.Statuses'  is null.");
+=======
+            return _context.Statuses != null ?
+                        View(await _context.Statuses.ToListAsync()) :
+                        Problem("Entity set 'MyFacultyDbContext.Statuses'  is null.");
+>>>>>>> 59fc604a407e294acf4cfcaf8766e2accc31f2f6
         }
 
         // GET: Status/Details/5
@@ -149,14 +159,22 @@ namespace MyFacultyWebApplication.Controllers
             {
                 _context.Statuses.Remove(status);
             }
+<<<<<<< HEAD
             
+=======
+
+>>>>>>> 59fc604a407e294acf4cfcaf8766e2accc31f2f6
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool StatusExists(int id)
         {
+<<<<<<< HEAD
           return (_context.Statuses?.Any(e => e.Id == id)).GetValueOrDefault();
+=======
+            return (_context.Statuses?.Any(e => e.Id == id)).GetValueOrDefault();
+>>>>>>> 59fc604a407e294acf4cfcaf8766e2accc31f2f6
         }
     }
 }

@@ -1,12 +1,19 @@
+<<<<<<< HEAD
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+=======
+﻿using Microsoft.AspNetCore.Mvc;
+>>>>>>> 59fc604a407e294acf4cfcaf8766e2accc31f2f6
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MyFacultyWebApplication.Models;
 
 namespace MyFacultyWebApplication.Controllers
 {
+<<<<<<< HEAD
     [Authorize(Roles = "admin")]
+=======
+>>>>>>> 59fc604a407e294acf4cfcaf8766e2accc31f2f6
     public class MaterialsController : Controller
     {
         private readonly MyFacultyDbContext _context;
@@ -19,8 +26,13 @@ namespace MyFacultyWebApplication.Controllers
         // GET: Materials
         public async Task<IActionResult> Index()
         {
+<<<<<<< HEAD
             var materials = _context.Materials.Include(m => m.Subject);
             return View(await materials.ToListAsync());
+=======
+            var myFacultyDbContext = _context.Materials.Include(m => m.Subject);
+            return View(await myFacultyDbContext.ToListAsync());
+>>>>>>> 59fc604a407e294acf4cfcaf8766e2accc31f2f6
         }
 
         // GET: Materials/Details/5
@@ -43,6 +55,7 @@ namespace MyFacultyWebApplication.Controllers
         }
 
         // GET: Materials/Create
+<<<<<<< HEAD
         public IActionResult Create(int subjectId = -1)
         {
             if (subjectId == -1)
@@ -57,6 +70,14 @@ namespace MyFacultyWebApplication.Controllers
         }
 
 
+=======
+        public IActionResult Create()
+        {
+            ViewData["SubjectId"] = new SelectList(_context.Subjects, "Id", "Abbreviation");
+            return View();
+        }
+
+>>>>>>> 59fc604a407e294acf4cfcaf8766e2accc31f2f6
         // POST: Materials/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -64,8 +85,11 @@ namespace MyFacultyWebApplication.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Url,SubjectId")] Material material)
         {
+<<<<<<< HEAD
             material.Subject = await _context.Subjects.SingleAsync(s => s.Id == material.SubjectId);
 
+=======
+>>>>>>> 59fc604a407e294acf4cfcaf8766e2accc31f2f6
             if (ModelState.IsValid)
             {
                 _context.Add(material);

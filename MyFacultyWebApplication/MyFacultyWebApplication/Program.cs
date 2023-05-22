@@ -1,9 +1,14 @@
+<<<<<<< HEAD
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MyFacultyWebApplication;
 using MyFacultyWebApplication.Models;
 using System.Diagnostics;
+=======
+using Microsoft.EntityFrameworkCore;
+using MyFacultyWebApplication.Models;
+>>>>>>> 59fc604a407e294acf4cfcaf8766e2accc31f2f6
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +19,7 @@ builder.Services.AddDbContext<MyFacultyDbContext>(option => option.UseSqlServer(
     builder.Configuration.GetConnectionString("DefaultConnection")
     ));
 
+<<<<<<< HEAD
 builder.Services.AddDbContext<IdentityContext>(option => option.UseSqlServer(
     builder.Configuration.GetConnectionString("IdentityConnection")
     ));
@@ -51,6 +57,8 @@ builder.Services
 
 
 
+=======
+>>>>>>> 59fc604a407e294acf4cfcaf8766e2accc31f2f6
 var app = builder.Build();
 
 using(var scope = app.Services.CreateScope())
